@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
+    />
+
+</head>
+<body>
+    <h1>This is a Search page actualy not a simple search page its a powerfull
+        search page whihc is powerd by powerfull backend django and drf and 
+        for search we are using meile after elasticsearch solr,
+    </h1>
+
+
+    <div id="autocomplete" class="autocomplete">
+        <input class="autocomplete-input" />
+        <ul class="autocomplete-result-list"></ul>
+    </div>
+
+      <script>
+        const options = {
+            selector: "#autocomplete .autocomplete-input",
+            debounce: 300,
+            search: async function (query) {
+                const response = await fetch(`http://127.0.0.1:8000/api/search/?q=${query}`);
+                const data = await response.json();
+                return data.map(item => item.name);
+            },
+            resultList:{
+                render:true,
+                destination:'#autocomplete .autocomplete-result-list',
+            }
+        }
+        
+        new Autocomplete('#autocomplete', options)
+      </script>
+
+
+</body>
+</html>
